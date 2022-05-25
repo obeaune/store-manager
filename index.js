@@ -1,6 +1,7 @@
 const app = require('./app');
 require('dotenv').config();
 
+// Comentário para abrir o PR do projeto.
 // não altere esse arquivo, essa estrutura é necessária para à avaliação do projeto
 
 app.listen(process.env.PORT, () => {
