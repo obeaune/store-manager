@@ -1,19 +1,31 @@
 const express = require('express');
+const rescue = require('express-rescue');
 
 const app = express();
 
 const product = require('./controllers/productController');
 const sale = require('./controllers/saleController');
+const ErrorHandler = require('./middlewares/ErrorHandler');
 
 app.use(express.json());
 
-app.get('/products', product.getAll);
+app.get('/products', rescue(product.getAll));
 
-app.get('/products/:id', product.getById);
+app.get('/products/:id', rescue(product.getById));
 
-app.get('/sales', sale.getAll);
+app.post('/products', rescue(product.create));
 
-app.get('/sales/:id', sale.getById);
+app.put('/products/:id', rescue(product.update));
+
+app.get('/sales', rescue(sale.getAll));
+
+app.get('/sales/:id', rescue(sale.getById));
+
+app.post('/sales', rescue(sale.create));
+
+app.put('/sales/:id', rescue(sale.update));
+
+app.use(ErrorHandler);
 
 // não remova esse endpoint, é para o avaliador funcionar
 app.get('/', (_request, response) => {
