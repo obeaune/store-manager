@@ -64,9 +64,25 @@ const update = async (req, res, next) => {
   return res.status(200).json(product);
 };
 
+const exclude = async (req, res, _next) => {
+  const { id } = req.params;
+  // requesting the array of products
+  const products = await Store.getAll();
+
+  // now evaluating if there is an object that contains the id used in the url
+  const r = products.find((el) => el.id === Number(id));
+
+  // if don't exist
+  if (!r) return res.status(404).json({ message: 'Product not found' });
+  // if sucess
+  Store.excludeProduct(id);
+  return res.status(204).end();
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
+  exclude,
 };

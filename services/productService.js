@@ -8,9 +8,12 @@ const createProduct = async (name, quantity) => Store.createProduct(name, quanti
 
 const updateProduct = async (id, name, quantity) => Store.updateProduct(id, name, quantity);
 
+const excludeProduct = async (id) => Store.excludeProduct(id);
+
 module.exports = {
   getAll,
   getById,
   createProduct,
   updateProduct,
+  excludeProduct,
 };
