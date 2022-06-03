@@ -15,15 +15,27 @@ const getById = async (req, res) => {
 
 const create = async (req, res, next) => {
   const { name, quantity } = req.body;
-
+  // body validation
   const schema = Joi.object({
     name: Joi.string().min(5).required(),
     quantity: Joi.number().min(1).greater(0).required(),
   }).validate({ name, quantity });
-  
+  // if validation fails
   if (schema.error) return next(schema.error);
 
-  return res.status(201).json({ message: 'Rota para post (create)' });
+  // requesting the array of products
+  const products = await Store.getAll();
+
+  // now evaluating if there is an object that contains the name used in the body
+  const r = products.find((el) => el.name === name);
+
+  // if no exist, create the new product
+  if (!r) {
+    const product = await Store.createProduct(name, quantity);
+    return res.status(201).json(product);
+  }
+  // if exists, throw error
+  return res.status(409).send({ message: 'Product already exists' });
 };
 
 const update = async (req, res, next) => {
