@@ -20,21 +20,11 @@ const create = async (req, res, next) => {
     name: Joi.string().min(5).required(),
     quantity: Joi.number().min(1).greater(0).required(),
   }).validate({ name, quantity });
-  // if validation fails
   if (schema.error) return next(schema.error);
 
-  // requesting the array of products
-  const products = await Store.getAll();
-
-  // now evaluating if there is an object that contains the name used in the body
-  const r = products.find((el) => el.name === name);
-
-  // if don't find it, create the new product
-  if (!r) {
-    const product = await Store.createProduct(name, quantity);
-    return res.status(201).json(product);
-  }
-  // if find, throw error message
+  // go to service
+  const product = await Store.createProduct(name, quantity);
+  if (product) return res.status(201).json(product);
   return res.status(409).send({ message: 'Product already exists' });
 };
 
@@ -46,36 +36,19 @@ const update = async (req, res, next) => {
     name: Joi.string().min(5).required(),
     quantity: Joi.number().min(1).greater(0).required(),
   }).validate({ name, quantity });
-  // if validation fails
   if (schema.error) return next(schema.error);
 
-  // requesting the array of products
-  const products = await Store.getAll();
-
-  // now evaluating if there is an object that contains the id used in the url
-  const r = products.find((el) => el.id === Number(id));
-
-  // if don't find it, throw error message
-  if (!r) {
-    return res.status(404).json({ message: 'Product not found' });
-  }
-  // if find, update the info product
+  // go to service
   const product = await Store.updateProduct(id, name, quantity);
-  return res.status(200).json(product);
+  if (product) return res.status(200).json(product);
+  return res.status(404).json({ message: 'Product not found' });
 };
 
 const exclude = async (req, res, _next) => {
   const { id } = req.params;
-  // requesting the array of products
-  const products = await Store.getAll();
 
-  // now evaluating if there is an object that contains the id used in the url
-  const r = products.find((el) => el.id === Number(id));
-
-  // if don't exist
-  if (!r) return res.status(404).json({ message: 'Product not found' });
-  // if sucess
-  Store.excludeProduct(id);
+  const result = await Store.excludeProduct(id);
+  if (result === 'ProductNotFound') return res.status(404).json({ message: 'Product not found' });
   return res.status(204).end();
 };
 
