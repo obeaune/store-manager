@@ -9,6 +9,7 @@ const ErrorHandler = require('./middlewares/ErrorHandler');
 
 app.use(express.json());
 
+// PRODUCTS
 app.get('/products', rescue(product.getAll));
 
 app.get('/products/:id', rescue(product.getById));
@@ -19,6 +20,7 @@ app.put('/products/:id', rescue(product.update));
 
 app.delete('/products/:id', rescue(product.exclude));
 
+// SALES
 app.get('/sales', rescue(sale.getAll));
 
 app.get('/sales/:id', rescue(sale.getById));
@@ -27,6 +29,7 @@ app.post('/sales', rescue(sale.create));
 
 app.put('/sales/:id', rescue(sale.update));
 
+// MIDDLEWARE
 app.use(ErrorHandler);
 
 // não remova esse endpoint, é para o avaliador funcionar
