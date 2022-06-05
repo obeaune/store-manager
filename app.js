@@ -1,35 +1,17 @@
 const express = require('express');
-const rescue = require('express-rescue');
 
 const app = express();
 
-const product = require('./controllers/productController');
-const sale = require('./controllers/saleController');
-const ErrorHandler = require('./middlewares/ErrorHandler');
+const ErrorHandler = require('./middlewares/errorHandler');
+const productsRouter = require('./routes/productsRouter');
+const salesRouter = require('./routes/salesRouter');
 
 app.use(express.json());
 
-// PRODUCTS
-app.get('/products', rescue(product.getAll));
+app.use('/products', productsRouter);
 
-app.get('/products/:id', rescue(product.getById));
+app.use('/sales', salesRouter);
 
-app.post('/products', rescue(product.create));
-
-app.put('/products/:id', rescue(product.update));
-
-app.delete('/products/:id', rescue(product.exclude));
-
-// SALES
-app.get('/sales', rescue(sale.getAll));
-
-app.get('/sales/:id', rescue(sale.getById));
-
-app.post('/sales', rescue(sale.create));
-
-app.put('/sales/:id', rescue(sale.update));
-
-// MIDDLEWARE
 app.use(ErrorHandler);
 
 // não remova esse endpoint, é para o avaliador funcionar
