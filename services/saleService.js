@@ -21,9 +21,17 @@ const updateSale = async (id, salesArr) => {
   return { saleId: id, itemUpdated: salesArr };
 };
 
+const exclude = async (id) => {
+  const allSales = await Model.getAll();
+  const result = allSales.find((saleObj) => saleObj.saleId === Number(id));
+  if (!result) return ('SaleNotFound'); 
+  return Model.exclude(id);
+};
+
 module.exports = {
   getAll,
   getById,
   createSale,
   updateSale,
+  exclude,
 };

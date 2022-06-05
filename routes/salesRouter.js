@@ -13,4 +13,6 @@ route.post('/', validateSales, rescue(sale.create));
 
 route.put('/:id', validateSales, rescue(sale.update));
 
+route.delete('/:id', rescue(sale.exclude));
+
 module.exports = route;

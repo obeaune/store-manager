@@ -22,9 +22,15 @@ const update = async (req, res, _next) => {
   const salesArr = req.body;
   const { id } = req.params;
   const sale = await Service.updateSale(id, salesArr);
-  console.log(sale); // undefined??
   if (!sale) return res.status(404).json({ message: 'Sale not found' });
   return res.status(200).json(sale);
+};
+
+const exclude = async (req, res, _next) => {
+  const { id } = req.params;
+  const result = await Service.exclude(id);
+  if (result === 'SaleNotFound') return res.status(404).json({ message: 'Sale not found' });
+  return res.status(204).end();
 };
 
 module.exports = {
@@ -32,4 +38,5 @@ module.exports = {
   getById,
   create,
   update,
+  exclude,
 };
