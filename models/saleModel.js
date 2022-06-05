@@ -38,9 +38,23 @@ const insertSaleProducts = async (id, { productId, quantity }) => {
   return ({ productId, quantity });
 };
 
+const updateSale = async (id, [{ productId, quantity }]) => {
+  // first delete the infos 
+  const query = `DELETE FROM StoreManager.sales_products
+    WHERE sale_id = ?`;
+  await connection.execute(query, [id]);
+
+  // now add the new ones
+  const cara = `INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity)
+    VALUES (?, ?, ?)`;
+  await connection.execute(cara, [id, productId, quantity]);
+  return ({ productId, quantity });
+};
+
 module.exports = {
   getAll,
   getById,
   createSale,
   insertSaleProducts,
+  updateSale,
 };

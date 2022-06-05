@@ -13,8 +13,17 @@ const createSale = async (salesArr) => {
   return ({ id, itemsSold: salesArr });
 };
 
+const updateSale = async (id, salesArr) => {
+  const allSales = await Model.getAll();
+  const ifTheSaleExists = allSales.find((sale) => sale.saleId === Number(id));
+  if (!ifTheSaleExists) return undefined;
+  await Model.updateSale(id, salesArr);
+  return { saleId: id, itemUpdated: salesArr };
+};
+
 module.exports = {
   getAll,
   getById,
   createSale,
+  updateSale,
 };

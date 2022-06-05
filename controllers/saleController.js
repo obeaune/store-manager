@@ -19,9 +19,12 @@ const create = async (req, res, _next) => {
 };
 
 const update = async (req, res, _next) => {
-  // const salesArr = req.body;
-
-   res.status(200).json({ message: 'Rota para put (update)' });
+  const salesArr = req.body;
+  const { id } = req.params;
+  const sale = await Service.updateSale(id, salesArr);
+  console.log(sale); // undefined??
+  if (!sale) return res.status(404).json({ message: 'Sale not found' });
+  return res.status(200).json(sale);
 };
 
 module.exports = {
