@@ -45,9 +45,9 @@ const updateSale = async (id, [{ productId, quantity }]) => {
   await connection.execute(query, [id]);
 
   // now add the new ones
-  const cara = `INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity)
+  const insertQuery = `INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity)
     VALUES (?, ?, ?)`;
-  await connection.execute(cara, [id, productId, quantity]);
+  await connection.execute(insertQuery, [id, productId, quantity]);
   return ({ productId, quantity });
 };
 
