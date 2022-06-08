@@ -39,14 +39,14 @@ describe('Visualização das vendas existentes no BD', () => {
     expect(response).to.not.be.empty;
   });
 
-  it('Verifica se o array contém 2 objetos', async () => {
+  it('Verifica se as vendas possuem as chaves corretas', async () => {
     const response = await SalesModel.getAll();
-    expect(response.length).to.equal(2)
+    expect(response[0]).to.include.all.keys('saleId', 'date', 'productId', 'quantity')
   });
 
-  it('Verifica se o retorno de uma requisição ao BD com ID específico é um array das vendas com esse saleId', async () => {
+  it('Verifica se o retorno de uma requisição ao BD com ID específico é um array populado com as vendas que contém esse ID', async () => {
     const response = await SalesModel.getById(1);
-    expect(response).to.be.an('array');
+    expect(response[0]).to.include.keys({ saleId: 1 })
   });
 });
 
@@ -56,19 +56,22 @@ describe('Insere uma nova venda no BD', () => {
     quantity: 10,
   }
   before(async () => {
-    const execute = [{ insertId: 1 }]; // retorno esperado nesse teste
+    const execute = [{
+      productId: 1,
+      quantity: 10,
+     }]; // retorno esperado nesse teste
     sinon.stub(connection, 'execute').resolves(execute);
   });
   after(async () => {
     connection.execute.restore();
   });
 
-  it('retorna um objeto contendo as informações da nova venda cadastrada', async () => {
+  it('O retorno é um objeto contendo as informações da nova venda cadastrada', async () => {
     const response = await SalesModel.insertSaleProducts(1, payloadSale);
     expect(response).to.be.a('object')
     expect(response).to.include.all.keys('productId', 'quantity');
   });
-  it('a criação de uma nova venda retorna um objeto', async () => {
+  it('A criação de uma nova venda retorna um objeto', async () => {
     const response = await SalesModel.createSale();
     expect(response).to.be.a('object')
     expect(response).to.have.a.property('id')
@@ -91,7 +94,7 @@ describe('Se a atualização das vendas está sendo feita', () => {
     connection.execute.restore();
   });
 
-  it('A atualização retorna um objeto com as chaves productId e quantity', async () => {
+  it('A atualização de venda retorna um objeto com as chaves productId e quantity', async () => {
     const response = await SalesModel.updateSale(id, [{ productId, quantity }]);
     expect(response).to.be.a('object')
     expect(response).to.include.all.keys('productId', 'quantity')

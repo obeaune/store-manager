@@ -106,7 +106,7 @@ describe('Atualização de um produto no BD', () => {
 describe('Remoção de um produto no BD com ID específico', () => {
   before(() => {
     const execute = []; // retorno esperado nesse teste
-    sinon.stub(connection, "execute").resolves(execute);
+    sinon.stub(connection, 'execute').resolves(execute);
   });
   after(() => {
     connection.execute.restore();
