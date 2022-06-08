@@ -20,7 +20,7 @@ describe('Testes relacionados a camada Model de Produtos =>', () => {
       connection.execute.restore();
     });
   
-    it('retorna um objeto', async () => {
+    it('O retorno da criação de um novo produto é um objeto', async () => {
       const response = await ProductsModel.createProduct(payloadProduct);
       expect(response).to.be.a('object')
     });
