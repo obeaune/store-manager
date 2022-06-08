@@ -4,7 +4,8 @@ const { expect } = require('chai');
 const connection = require('../../../models/connection');
 const ProductsModel = require('../../../models/productModel');
 
-describe('Testes relacionados a camada Model de Produtos =>', () => {
+describe('Testes referentes a camada de MODEL de PRODUTOS =>', () => {
+
   describe('Insere um novo produto no BD', () => {
     const payloadProduct = {
       name: 'produto A',

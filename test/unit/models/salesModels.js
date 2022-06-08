@@ -4,7 +4,8 @@ const { expect } = require('chai');
 const connection = require('../../../models/connection');
 const SalesModel = require('../../../models/saleModel');
 
-describe('Testes relacionados a camada Model de Sales =>', () => {
+describe('Testes referentes a camada MODEL de SALES =>', () => {
+
   describe('Visualização das vendas existentes no BD', () => {
     before(async () => {
       const execute = [

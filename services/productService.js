@@ -18,7 +18,6 @@ const createProduct = async (name, quantity) => {
 const updateProduct = async (id, name, quantity) => {
   const allProducts = await Model.getAll();
   const result = allProducts.find((el) => el.id === Number(id));
-
   if (result) {
     const product = await Model.updateProduct(id, name, quantity);
     return product;

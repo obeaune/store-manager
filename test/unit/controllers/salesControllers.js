@@ -4,7 +4,8 @@ const { expect } = require('chai');
 const SalesService = require('../../../services/saleService');
 const SalesController = require('../../../controllers/saleController');
 
-describe('Testes na camada de Controller de Sales =>', () => {
+describe('Testes referentes a camada de CONTROLLER de SALES =>', () => {
+
   describe('Requisição feita mas não existem produtos no BD', async () => {
     const response = {};
     const request = { params: {} };
